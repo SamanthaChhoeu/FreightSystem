@@ -1,20 +1,22 @@
 
 public class Edge {
-	private String town1;
-	private String town2;
+	private Town town1;
+	private Town town2;
 	private int cost;
 	
-	public Edge (String town1,String town2, int cost){
+	public Edge (Town town1,Town town2, int cost){
 		this.town1 = town1;
 		this.town2 = town2;
 		this.cost = cost;
 	}
 	
-	public String getStart(){
+	
+	
+	public Town getStart(){
 		return town1;
 		
 	}
-	public String getEnd(){
+	public Town getEnd(){
 		return town2;
 	}
 	

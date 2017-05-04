@@ -1,11 +1,14 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-
 public class Town {
 	private int cost;
 	private String name;
 	private ArrayList<Edge> connected;
 	
+	public Town(){
+		this.name = "";
+		this.cost = 0;
+		this.connected = new ArrayList<Edge>();
+	}
 	public Town(String name,int cost){
 		this.name = name;
 		this.cost = cost;

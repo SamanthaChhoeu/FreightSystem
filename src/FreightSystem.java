@@ -6,12 +6,15 @@ import java.util.Scanner;
 
 public class FreightSystem {
 	private ArrayList<Town> towns;
-
+	private ArrayList<Edge> jobs;
+	private Town start = new Town(); // STARTING TOWN
 	private int cost;
 
 	public FreightSystem(){
 		this.cost = 0;
 		this.towns = new ArrayList<Town>();
+		this.jobs = new ArrayList<Edge>();
+		
 	}
 	
 	// only main is static
@@ -24,7 +27,11 @@ public class FreightSystem {
 	        sc = new Scanner(new FileReader(args[0]));    // args[0] is the first command line argument
 		    while(sc.hasNextLine() && sc.hasNext()){
 		    	system.Request(sc);
-		    }
+		    	
+		    	
+		    } 
+		    system.Search();
+		    
 	    }
 	    catch (FileNotFoundException e) {}
 	    finally
@@ -33,6 +40,10 @@ public class FreightSystem {
 	    }
 	}
 
+	private void Search(){
+		Search search = new Search(jobs, start);
+		System.out.println("cost = "+cost);
+	}
 	private void Request(Scanner sc){
 		String command;
     	
@@ -45,7 +56,7 @@ public class FreightSystem {
     	else if(command.equals("Unloading")){
     		int cost = sc.nextInt();
     		String town = sc.next();
-    		System.out.println(cost+town);
+    		//System.out.println(cost+town);
     		updateUnload(town,cost);
     	}
     	// Cost <cost> <town1> <town2>
@@ -53,7 +64,7 @@ public class FreightSystem {
     		int cost = sc.nextInt();
     		String town1 = sc.next();
     		String town2 = sc.next();
-    		System.out.println(cost+town1+town2);
+    		//System.out.println(cost+town1+town2);
     		updateConnected(town1,town2,cost);
     	}
     	// Job <town1> <town2>
@@ -61,32 +72,58 @@ public class FreightSystem {
     		String town1 = sc.next();
     		String town2 = sc.next();
     		job(town1,town2);
-    		System.out.println(town1+town2);
+    		//System.out.println(town1+town2);
+
     		
     	}
+    	
 	}
 	
 	private void updateUnload(String name,int cost){
 		Town town = new Town(name,cost);
 		towns.add(town);
+		// initialise start town
+		if (start.getName().equals("")){
+			start = town;
+			
+		}
 		
 	}
-	private void updateConnected(String town1, String town2, int cost){
-		for (Town town : towns){
-			if (town.getName().equals(town1)){
-				Edge edge = new Edge(town1,town2,cost);
-				town.addEdge(edge);
-			} else if (town.equals(town2)){
-				Edge edge = new Edge(town1,town2,cost);
-				town.addEdge(edge);
-			}
-			System.out.print(town.getConnected());
-		}
+	private void updateConnected(String town1name, String town2name, int cost){
+		Town town1 = getTown(town1name);
+		Town town2 = getTown(town2name);
+		
+		Edge edge1 = new Edge(town1,town2,cost);
+		Edge edge2 = new Edge(town2,town1,cost);
+		
+		town1.addEdge(edge1);
+		town2.addEdge(edge2);
+		
 	}
 	private void job(String town1, String town2){
 		// always starts in sydney
 		// list of jobs that are left to be done
-		System.out.println("cost = "+cost);
+		
+		for (Town town : towns){
+			if (town.getName().equals(town1)){
+				for (Edge edge : town.getConnected()){
+					if (edge.getEnd().equals(town2)){
+						jobs.add(edge);
+					}
+				}
+			}
+		}
+
+		
+	}
+	
+	private Town getTown(String name){
+		for (Town town:towns){
+			if (town.getName().equals(name)){
+				return town;
+			}
+		}
+		return null;
 	}
     	
     	
