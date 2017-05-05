@@ -1,21 +1,43 @@
 import java.util.ArrayList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class State.
+ */
 public class State {
 
 	// prev state
+	/** The current. */
 	// current town
-	Town current;
-	State prevState;
+	private Town current;
 	
+	/** The prev state. */
+	private State prevState;
+	
+	/** The jobs. */
 	// jobs completed or jobs left???
 	private ArrayList<Edge> jobs;
+	
+	/** The path. */
 	private ArrayList<Edge> path;
+	
+	/** The visited nodes. */
 	private ArrayList<Town> visitedNodes;
 	
 	// f(x)
 
+	/** The cost. */
 	private int cost;
 	
+	/**
+	 * Instantiates a new state.
+	 *
+	 * @param jobs the jobs
+	 * @param visitedNodes the visited nodes
+	 * @param path the path
+	 * @param curr the curr
+	 * @param prevState the prev state
+	 */
 	public State(ArrayList<Edge> jobs, ArrayList<Town> visitedNodes, ArrayList<Edge> path,
 		Town curr, State prevState){
 		this.current = curr;
@@ -25,6 +47,11 @@ public class State {
 		
 	}
 	
+	/**
+	 * Calculate total cost.
+	 *
+	 * @return the int
+	 */
 	public int calculateTotalCost(){
 		cost = 0;
 		if (path != null){
@@ -42,6 +69,11 @@ public class State {
 		
 	}
 	
+	/**
+	 * Calculate edge cost.
+	 *
+	 * @return the int
+	 */
 	public int calculateEdgeCost(){
 		int cost = 0;
 		if (path != null){
@@ -51,6 +83,12 @@ public class State {
 		}
 		return cost;
 	}
+	
+	/**
+	 * Gets the fx.
+	 *
+	 * @return the fx
+	 */
 	public int getfx(){
 		
 		int gx = calculateEdgeCost(); // distance so far
@@ -63,6 +101,11 @@ public class State {
 		return fx;
 	}
 	
+	/**
+	 * Jobs left.
+	 *
+	 * @return the int
+	 */
 	public int jobsLeft(){
 		int num = 0;
 		int totalJobs = jobs.size();
@@ -82,6 +125,13 @@ public class State {
 		return jobsLeft;
 	}
 	
+	/**
+	 * Contains.
+	 *
+	 * @param path the path
+	 * @param edge the edge
+	 * @return true, if successful
+	 */
 	private boolean contains(ArrayList<Edge> path, Edge edge){
 		for (Edge edge1:path){
 			if (edge.equals(edge1)){
@@ -91,13 +141,29 @@ public class State {
 		return false;
 	}
 	
+	/**
+	 * Gets the current.
+	 *
+	 * @return the current
+	 */
 	public Town getCurrent(){
 		return current;
 	}
+	
+	/**
+	 * Gets the visited.
+	 *
+	 * @return the visited
+	 */
 	public ArrayList<Town> getVisited(){
 		return visitedNodes;
 	}
 	
+	/**
+	 * Gets the path.
+	 *
+	 * @return the path
+	 */
 	public ArrayList<Edge> getPath(){
 		return path;
 	}

@@ -1,0 +1,24 @@
+# random unloading
+Unloading 2 Shurima
+Unloading 7 Frejlord
+Unloading 23 Noxus
+Unloading 199 Demacia
+Unloading 1 Zaun
+Unloading 64 Piltover
+Unloading 17 Ionia
+# cost
+Cost 13 Shurima Frejlord
+Cost 13 Shurima Noxus
+Cost 50 Noxus Demacia
+Cost 25 Demacia Zaun
+Cost 100 Piltover Demacia
+Cost 75 Piltover Zaun
+Cost 96 Shurima Zaun
+Cost 54 Piltover Shurima
+Cost 65 Ionia Piltover
+Cost 12 Ionia Frejlord
+Cost 1 Ionia Shurima
+# jobs
+Job Shurima Frejlord
+Job Ionia Shurima
+Job Piltover Zaun

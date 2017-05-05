@@ -1,0 +1,7 @@
+18 nodes expanded
+cost = 179
+Job Shurima to Noxus
+Empty Noxus to Shurima
+Job Shurima to Frejlord
+Empty Frejlord to Shurima
+Job Shurima to Zaun

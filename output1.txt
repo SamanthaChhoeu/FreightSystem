@@ -1,0 +1,7 @@
+34722 nodes expanded
+cost = 165
+Job Shurima to Frejlord
+Empty Frejlord to Ionia
+Job Ionia to Shurima
+Empty Shurima to Piltover
+Job Piltover to Zaun

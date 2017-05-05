@@ -1,22 +1,38 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FreightSystem.
+ */
 public class FreightSystem {
+	
+	/** The towns. */
 	private ArrayList<Town> towns;
+	
+	/** The jobs. */
 	private ArrayList<Edge> jobs;
+	
+	/** The start. */
 	private Town start = new Town(); // STARTING TOWN
-	private int cost;
+	
 
+	/**
+	 * Instantiates a new freight system.
+	 */
 	public FreightSystem(){
-		this.cost = 0;
 		this.towns = new ArrayList<Town>();
 		this.jobs = new ArrayList<Edge>();
 		
 	}
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	// only main is static
 	public static void main(String[] args){
 		FreightSystem system = new FreightSystem();
@@ -40,6 +56,9 @@ public class FreightSystem {
 	    }
 	}
 
+	/**
+	 * Search.
+	 */
 	private void Search(){
 		Search search = new Search(jobs, start);
 		State best = search.Astar();
@@ -56,6 +75,12 @@ public class FreightSystem {
 			
 		}
 	}
+	
+	/**
+	 * Request.
+	 *
+	 * @param sc the sc
+	 */
 	private void Request(Scanner sc){
 		String command;
     	
@@ -91,6 +116,12 @@ public class FreightSystem {
     	
 	}
 	
+	/**
+	 * Update unload.
+	 *
+	 * @param name the name
+	 * @param cost the cost
+	 */
 	private void updateUnload(String name,int cost){
 		Town town = new Town(name,cost);
 		towns.add(town);
@@ -101,6 +132,14 @@ public class FreightSystem {
 		}
 		
 	}
+	
+	/**
+	 * Update connected.
+	 *
+	 * @param town1name the town 1 name
+	 * @param town2name the town 2 name
+	 * @param cost the cost
+	 */
 	private void updateConnected(String town1name, String town2name, int cost){
 		Town town1 = getTown(town1name);
 		Town town2 = getTown(town2name);
@@ -112,6 +151,13 @@ public class FreightSystem {
 		town2.addEdge(edge2);
 		
 	}
+	
+	/**
+	 * Job.
+	 *
+	 * @param town1 the town 1
+	 * @param town2 the town 2
+	 */
 	private void job(String town1, String town2){
 		// always starts in sydney
 		// list of jobs that are left to be done
@@ -132,6 +178,12 @@ public class FreightSystem {
 		
 	}
 	
+	/**
+	 * Gets the town.
+	 *
+	 * @param name the name
+	 * @return the town
+	 */
 	private Town getTown(String name){
 		for (Town town:towns){
 			if (town.getName().equals(name)){
@@ -140,6 +192,7 @@ public class FreightSystem {
 		}
 		return null;
 	}
-    	
+    
+	
     	
 }
