@@ -43,13 +43,18 @@ public class FreightSystem {
 	private void Search(){
 		Search search = new Search(jobs, start);
 		State best = search.Astar();
-		if (best.getPath()!=null){
-			for (Edge edge: best.getPath()){
-				System.out.println(edge.getStart().getName()+" "+edge.getEnd().getName());
-			}
-		}
-		System.out.println(search.getNodesExpanded()+"nodes expanded");
+		
+		System.out.println(search.getNodesExpanded()+" nodes expanded");
 		System.out.println("cost = "+best.calculateTotalCost());
+		for (Edge edge: best.getPath()){
+			if (jobs.contains(edge)){
+				System.out.println("Job "+edge.getStart().getName()+" to "+edge.getEnd().getName());
+			}else{
+				System.out.println("Empty "+edge.getStart().getName()+" to "+edge.getEnd().getName());
+			}
+			
+			
+		}
 	}
 	private void Request(Scanner sc){
 		String command;

@@ -53,16 +53,13 @@ public class State {
 	}
 	public int getfx(){
 		
-		int gx = calculateEdgeCost(); // amount of jobs left
-		int hx = 0;
+		int gx = calculateEdgeCost(); // distance so far
+		//Heuristic 
+		Heuristic h = new Heuristic(path, jobs);
+		int hx = h.calculate();
 		int fx = 0;
 		fx = gx + hx;
 		
-		
-		//if (fx == 2){
-			//System.out.println(jobs);
-			//System.out.println("fx"+fx);
-		//}
 		return fx;
 	}
 	

@@ -46,7 +46,6 @@ public class Search {
 			
 			// Goal state
 			if (curr.jobsLeft()==0){
-				System.out.println("finished");
 				return curr;
 			
 			}
@@ -78,8 +77,7 @@ public class Search {
 				
 				
 				State newState = new State(jobs,visitedTowns ,path,end,curr);
-				System.out.println(newState.getfx());
-
+				
 
 				queue.add(newState);
 		
