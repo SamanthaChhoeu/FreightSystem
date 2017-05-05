@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)https://www.cse.unsw.edu.au/~cs2911/assignments/ass02.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title></title>
+
+<meta name="GENERATOR" content="OpenOffice.org 2.4 (Linux)">
+<meta name="CREATED" content="20080311;16155595">
+<meta name="CHANGED" content="20090309;13353600">
+<style type="text/css">
+<!--
+@page { size: 8.27in 11.69in; margin: 0.79in }
+H1 { margin-bottom: 0.08in }
+H1.western { font-family: "Arial", sans-serif; font-size: 16pt }
+H1.cjk { font-family: "MS Mincho"; font-size: 16pt }
+H1.ctl { font-family: "Tahoma"; font-size: 16pt }
+P { margin-bottom: 0.08in }
+-->
+</style>
+</head>
+<body style="direction: ltr;" lang="en-US">
+<h1 class="western">Assignment 2<br>
+</h1>
+<p style="margin-bottom: 0in;"><b><big>Aims</big>:
+</b></p>
+<ul>
+<li>
+<p style="margin-bottom: 0in;">Gain deeper understanding of search algorithms and heuristics<br>
+</p>
+</li>
+<li>
+<p style="margin-bottom: 0in;">Apply design patterns in the construction of an object-oriented program<br>
+</p>
+</li>
+<li>
+<p style="margin-bottom: 0in;">Learn more about the Java class libraries</p>
+</li>
+</ul>
+<p><span style="font-weight: bold;"><big>Due
+Date:</big> </span>Week 9, Friday, May 5, 11:59 p.m.
+</p>
+<p><big><span style="font-weight: bold;">Value: </span></big>10%<br>
+</p>
+<h2>Freight Transport System
+</h2>
+This assignment is inspired by the problem faced by a small trucking company moving freight
+around Australia, making optimal use of a single truck. The aim is to schedule an optimal route
+for the truck to complete a joblist (set of jobs), where the truck completes one job at a time.
+While all the jobs on the joblist need to be included in the final route, the journey may
+include additional (multiple) road trips from the end of one job to the start of the next job.
+Assume that the truck can be run continuously (perhaps with different drivers), so your system
+can focus on scheduling an optimal route.<br>
+<br>
+More precisely, a joblist contains a number of distinct specified jobs. The jobs on this list
+can be scheduled in any order, but the first job always starts in Sydney. The aim is to minimize
+the total cost for the journey, taking into account travel costs between towns and a cost for
+unloading each job. For simplicity, the name of each town will be just one word. Assume also
+that the travel cost between any two towns is the same in either direction (so need only be
+specified in one direction), and that if such a cost is not specified, it is not possible
+to travel between the towns in one trip. However, all jobs on the joblist will be between towns
+that <em>are</em> directly connected. Furthermore, assume the following "triangle inequality"
+on travel costs: for any towns A, B and C, the travel cost from A to C is always less than
+or equal to the travel cost from A to B plus the travel cost from B to C.<br>
+<br>
+In this assignment, you will implement an A* search procedure for the freight
+transport system. In your program design, make use of the <span style="font-family: monospace;"><big>Strategy
+</big></span>pattern to supply a heuristic to the search procedure, and
+don't forget to ensure that your heuristic is admissible.
+<span style="font-weight: bold;">Implementing A* is the main requirement
+for this assignment, so that your program is guaranteed to produce an
+optimal solution. If your program does not always produce an
+optimal solution (when there is a solution), it is wrong.</span><br>
+<br>
+Assessment will be based on the design of your program in addition to
+correctness. You should submit at least a UML class diagram used for
+the design of your program, i.e. not generated from code afterwards.<br>
+<br>
+<span style="font-weight: bold;">All</span> input will be a sequence of lines of the following
+form, and all towns and costs will be declared before the joblist:<br>
+<br>
+<span style="font-family: monospace;"><big>Unloading &lt;cost&gt; &lt;town&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Unloading cost is &lt;cost&gt; in &lt;town&gt;<br>
+<span style="font-family: monospace;">Cost &lt;cost&gt; &lt;town1&gt; &lt;town2&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is &lt;cost&gt; from &lt;town1&gt; to &lt;town2&gt;<br>
+<span style="font-family: monospace;">Job &lt;town1&gt; &lt;town2&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Joblist includes a job from &lt;town1&gt; to &lt;town2&gt;<br>
+</span></span></big></span>
+<br>
+Create all your Java source files in the <span style="font-weight: bold;">default package</span>.
+Call your main Java file <span style="font-family: monospace;"><big>FreightSystem.java</big></span>.
+Read input from a file whose name is passed as an argument to the main
+method in the call to <span style="font-family: monospace;"><big>java
+FreightSystem</big></span> and print output to <span style="font-family: monospace;"><big>System.out</big></span>.
+For machine marking, the output will be redirected to a text file that will
+be compared to the expected output (so do not print out extra spaces,
+etc.) <span style="font-weight: bold;">and remember to close the input file</span>.
+<span style="font-weight: bold;">For the purposes of machine marking, problems
+will be used for which there is only one optimal solution, though in the case
+of multiple optimal solutions, your program should produce one of them.</span><br>
+<br>
+To read input from a text file (whose name should be passed as a <span style="font-weight: bold;">command line</span>
+argument to java, e.g. <span style="font-family: monospace;"><big>java FreightSystem input.txt</big></span>),
+use code such as:<br>
+<br>
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scanner sc = null;</big></span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+try</big></span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{</big></span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; sc = new Scanner(new
+FileReader(args[0]));&nbsp;&nbsp;&nbsp; # args[0] is the
+first command line argument</big></span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</big></span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+catch (FileNotFoundException e) {}</big></span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+finally</big></span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{</big></span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; if (sc != null) sc.close();</big></span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</big></span><br style="font-family: monospace;">
+<p></p>
+<br>
+<big><span style="font-weight: bold;">Sample Input</span></big><br>
+<br>
+Below is an example of the input form and meaning. Note that you will
+have to submit at least three input test files with your assignment.
+These test files should include one or more comments to specify what
+scenario is being tested. However, the following sample input includes
+many comments added only to explain the input format; your input test files
+do not need to contain this many comments.<br>
+<br>
+<span style="font-family: monospace;"></span><span style="font-family: monospace;"><big>
+Unloading 120 Sydney
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Unloading cost is 120 in Sydney<br>
+Unloading 80 Dubbo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Unloading cost is 80 in Dubbo<br>
+Unloading 80 Grafton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Unloading cost is 80 in Grafton<br>
+Unloading 120 Wagga
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Unloading cost is 120 in Wagga<br>
+Unloading 160 Bathurst
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Unloading cost is 160 in Bathurst<br>
+<!-- Cost 360 Sydney Dubbo
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 360 from Sydney to Dubbo<br> -->
+<!-- Cost 480 Sydney Grafton
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 480 from Sydney to Grafton<br> -->
+Cost 360 Sydney Wagga
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 360 from Sydney to Wagga<br>
+Cost 200 Sydney Bathurst
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 200 from Sydney to Bathurst<br>
+Cost 200 Dubbo Grafton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 200 from Dubbo to Grafton<br>
+<!-- Cost 480 Dubbo Wagga
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 480 from Dubbo to Wagga<br> -->
+Cost 240 Dubbo Bathurst
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 240 from Dubbo to Bathurst<br>
+Cost 480 Grafton Wagga
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 480 from Grafton to Wagga<br>
+Cost 440 Grafton Bathurst
+&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 440 from Grafton to Bathurst<br>
+Cost 400 Wagga Bathurst
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Travel cost is 400 from Wagga to Bathurst<br>
+Job Grafton Wagga
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Job is required from Grafton to Wagga<br>
+Job Dubbo Grafton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Job is required from Dubbo to Grafton<br>
+Job Sydney Wagga
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Job is required from Sydney to Wagga<br>
+Job Sydney Bathurst
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # Job is required from Sydney to Bathurst<br>
+</big></span><br>
+<big><span style="font-weight: bold;">Sample Output</span></big><br>
+<br>
+The above example does not have a unique optimal solution. One valid output corresponding to the above input
+is as follows. The first line in the output should give the number of nodes <span style="font-style: italic; font-family: monospace;"><big>n</big></span>
+expanded in your search, the number of nodes taken <span style="font-weight: bold;">off</span> the queue,
+which will vary according to the heuristic used. If there is a solition to the problem, the second line
+of the output should give the cost of the solution found as an integer, which is the total cost,
+and should be the same regardless of the heuristic and the solution path. The remainder of the
+output should give a sequence of trips that make up an optimal solution, shown as either a job
+(for a required job on the joblist) or as empty (for trips between jobs when the truck is empty).
+If your program produces a different optimal solution from the one shown (with the same cost)
+then it is correct. If there is no solution to the problem, the second line of the output should
+just be <span style="font-family: monospace;"><big>No solution</big></span>.<br>
+<br>
+<span style="font-family: monospace;"><big><span style="font-style: italic;">n</span> nodes expanded<br>
+cost = 2320<br>
+Job Sydney to Bathurst<br>
+Empty Bathurst to Dubbo<br>
+Job Dubbo to Grafton<br>
+Job Grafton to Wagga<br>
+Empty Wagga to Sydney<br>
+Job Sydney to Wagga<br>
+</big></span>
+<h2>Submission</h2>
+<ul>
+  <li>Submit one <span style="font-family: monospace;"><big>.zip</big></span> file
+using the following command: <br>
+  </li>
+</ul>
+<div style="margin-left: 80px;"><span style="font-family: monospace;"><big>give
+cs2911 ass2 ass2.zip</big></span><br></div>
+<ul>
+  <li>Your <span style="font-family: monospace;"><big>.zip</big></span> file
+should contain <span style="color: red;">at the top
+level, i.e. not within a&nbsp;directory when unzipped </span><span style="color: red;"> </span><span style="color: red;">(see
+below for more specific instructions)</span><span style="color: red;"></span>:</li>
+</ul>
+<ul>
+  <ul>
+    <li>All your <span style="font-family: monospace;"><big>.java</big></span> source
+files (there is no need to include <span style="font-family: monospace;"><big>.class</big></span> files:
+your Java files will be recompiled on the CSE machine) </li>
+    <li>A <span style="font-family: monospace;"><big>.pdf</big></span> file
+containing your design documents (a UML class diagram and, optionally,
+other diagrams necessary to understand your design)</li>
+    <li>A series of <span style="font-family: monospace;"><big>.txt</big></span>
+files (at least three) that you have used as input files to test your system
+(each including comments to indicate the scenarios tested), and the corresponding
+<span style="font-family: monospace;"><big>.txt</big></span> output files
+(call these <span style="font-family: monospace;"><big>input1.txt, output1.txt,
+input2.txt, output2.txt,</big></span> etc.)</li>
+  </ul>
+  <li>
+    <p>When your file is submitted, a test will be done to ensure that
+your Java files compile on the CSE machine (<b>take note of any error
+messages printed out)</b><br>
+  </p></li>
+  <li>
+    <p>Check that your submission has been received using the command:<br>
+</p></li>
+</ul>
+<ul>
+</ul>
+<div style="margin-left: 80px;"><span style="font-family: monospace;"><big>2911
+classrun -check ass2</big></span><br></div>
+<ul style="color: red;">
+<li>To create your zip file:</li>
+</ul>
+<div style="margin-left: 80px;"><span style="color: red;">Windows:</span><br style="color: red;">
+<span style="color: red;">Create and open the folder
+containing all the files, e.g. ass2</span><br style="color: red;">
+<span style="color: red;">Select all the files in that
+folder that you want to submit (e.g. all files or just the Java files,
+the doc directory and pdf and&nbsp;txt files)</span><br style="color: red;">
+<span style="color: red;">Right click and select</span><span style="font-family: monospace;"><span style="color: red;">
+<big>Send to -&gt; Compressed (zipped) folder<br>
+</big></span></span><span style="color: red;">This
+will create a zip file in the current directory<br>
+Double clicking on this file should give you the same list of files you
+selected, <span style="font-weight: bold;">and there should not
+be a directory called ass2</span><br>
+</span><br>
+<span style="color: red;">Unix:</span><br style="color: red;">
+<span style="color: red;">cd into the folder containing
+all the files, e.g. ass2</span><br style="color: red;">
+<span style="color: red;">Type&nbsp;<span style="font-family: monospace;"><big>zip -r
+~/ass2.zip *</big></span></span><br style="color: red;">
+<span style="color: red;">This will create a file called <span style="font-family: monospace;"><big>ass2.zip</big></span> in
+your home directory (you don't have to create this in the home
+directory of course)</span><br style="color: red;">
+<span style="color: red;">Check the contents of this file
+by typing&nbsp;<span style="font-family: monospace;"></span><span style="font-family: monospace;"><big>unzip
+-l ~/ass2.zip</big></span><br>
+You should see the list of files</span><span style="color: red;"> in
+the ass2 directory, <span style="font-weight: bold;">and these files should not
+be contained in a directory called ass2</span><br>
+</span></div>
+<h2>Assessment</h2>
+Marks for this assignment are allocated as follows:<br>
+<ul>
+  <li>
+    <p>Correctness (automarked): 60%</p>
+  </li>
+  <li>
+    <p>Design, programming style and analysis of heuristic: 40%</p>
+  </li>
+</ul>
+<span style="font-weight: bold;">Late penalty: 2 marks per day or part-day late
+off the mark obtainable for up to 3 (calendar) days after the due date</span>
+<h2><span style="font-weight: bold;">Assessment
+Criteria</span></h2>
+<ul>
+  <li>
+    <p>Correctness: Assessed on&nbsp;standard tests read from an input
+file, using calls of the form:<br>
+    </p>
+  </li>
+</ul>
+<div style="margin-left: 80px;"><span style="font-family: monospace;"><big>java
+FreightSystem input1.txt &gt; output1.txt&nbsp;&nbsp; # Output
+to System.out is redirected to output1.txt</big></span><br>
+</div>
+<ul>
+  <li>
+    <p>Design: Adherence to object-oriented design principles,
+clarity of UML diagrams and conformance of UML diagrams to code,
+<span style="font-weight: bold;">and appropriate use of design patterns</span><br>
+    </p>
+  </li>
+  <li>
+    <p>Programming style: Adherence to standard Java programming style,
+understandable class and variable names, adequate Javadoc and comments</p>
+  </li>
+  <li>
+    <p>Analysis of heuristic: Runtime analysis of the heuristic function supplied
+in the comments of <span style="font-family: monospace;"><big>FreightSystem.java</big></span><br>
+    </p>
+  </li>
+</ul>
+<h2>Plagiarism</h2>
+Remember that ALL work submitted for this assignment must be your own
+work and no code sharing or copying is allowed. You may use code from
+textbooks or the Internet only with suitable attribution of the source
+in your program. You should <b>carefully</b> read the <a target="_blank" href="https://student.unsw.edu.au/plagiarism">UNSW
+policy on academic integrity and plagiarism</a>, noting, in particular,
+that <em>collusion</em> (working together on an assignment, or sharing
+parts of assignment solutions) is a form of plagiarism.
+
+<div id="extension-is-installed"></div></body></html>
