@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class Search {
@@ -21,9 +22,9 @@ public class Search {
 	
 	public State Astar(){
 		// A*
-		
+		HashMap<State, Boolean> visited = new HashMap<State, Boolean>();
 		Comparator<State> comparator = new StateComparator();
-		PriorityQueue<State> queue = new PriorityQueue<State>(1, comparator);
+		PriorityQueue<State> queue = new PriorityQueue<State>(1,comparator);
 		
 		// (ArrayList<Edge> jobs, ArrayList<Town> visitedNodes, ArrayList<Edge> path,
 				//Town curr, State prevState, int cost)
@@ -38,14 +39,27 @@ public class Search {
 		while (!queue.isEmpty()){
 			
 			
-			State curr = queue.remove();
+			State curr = queue.poll();
 			//System.out.println(curr.calculateTotalCost());
-			nodes += 1;
+			nodes ++;
 			//System.out.println(queue);
+			
+			// Goal state
+			if (curr.jobsLeft()==0){
+				System.out.println("finished");
+				return curr;
+			
+			}
+			// check if state has been visited already
+			if (visited.get(curr) == null) {
+				visited.put(curr, true);
+			} else {
+				continue;
+			}
 			
 			for (Edge edge : curr.getCurrent().getConnected()){
 				ArrayList<Edge> path;
-				ArrayList<Town> visited;
+				ArrayList<Town> visitedTowns;
 				
 				if (curr.getPath() == null){
 					path = new ArrayList<Edge>();
@@ -54,33 +68,18 @@ public class Search {
 				}
 				
 				if (curr.getVisited() == null){
-					visited = new ArrayList<Town>();
+					visitedTowns = new ArrayList<Town>();
 				} else {
-					visited = new ArrayList<Town>(curr.getVisited());
+					visitedTowns = new ArrayList<Town>(curr.getVisited());
 				}
 				path.add(edge);
 				Town end = edge.getEnd();   
-				visited.add(end);
-				//System.out.println("added"+end.getName());
-				///for (State test:queue){
-				//	System.out.print(test.getCurrent().getName()+" ");
-				//}
-				
-				System.out.println("-----------------------------------------------------");
-				//for (Town town:visited){
-				//	System.out.println(town.getName());
-				//}
-			
+				visitedTowns.add(end);
 				
 				
-				
-				State newState = new State(jobs,visited ,path,end,curr);
-				
-				if (curr.jobsLeft()==0){
-					System.out.println("finished");
-					return curr;
-				
-				}
+				State newState = new State(jobs,visitedTowns ,path,end,curr);
+				System.out.println(newState.getfx());
+
 
 				queue.add(newState);
 		

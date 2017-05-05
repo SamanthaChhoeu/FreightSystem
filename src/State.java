@@ -26,7 +26,7 @@ public class State {
 	}
 	
 	public int calculateTotalCost(){
-		
+		cost = 0;
 		if (path != null){
 			for (Edge edge:path){
 				cost += edge.getCost();
@@ -34,13 +34,26 @@ public class State {
 		}
 		if (visitedNodes != null){
 			//  change this to unloading cost
+			for (Edge job:jobs){
+				cost+= job.getEnd().getCost();
+			}
 		}
 		return cost;
 		
 	}
+	
+	public int calculateEdgeCost(){
+		int cost = 0;
+		if (path != null){
+			for (Edge edge:path){
+				cost += edge.getCost();
+			}
+		}
+		return cost;
+	}
 	public int getfx(){
 		
-		int gx = jobsLeft(); // amount of jobs left
+		int gx = calculateEdgeCost(); // amount of jobs left
 		int hx = 0;
 		int fx = 0;
 		fx = gx + hx;
