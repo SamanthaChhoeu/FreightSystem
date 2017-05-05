@@ -42,7 +42,14 @@ public class FreightSystem {
 
 	private void Search(){
 		Search search = new Search(jobs, start);
-		System.out.println("cost = "+cost);
+		State best = search.Astar();
+		if (best.getPath()!=null){
+			for (Edge edge: best.getPath()){
+				System.out.println(edge.getStart().getName()+" "+edge.getEnd().getName());
+			}
+		}
+		System.out.println(search.getNodesExpanded()+"nodes expanded");
+		System.out.println("cost = "+best.calculateTotalCost());
 	}
 	private void Request(Scanner sc){
 		String command;
@@ -106,9 +113,12 @@ public class FreightSystem {
 		
 		for (Town town : towns){
 			if (town.getName().equals(town1)){
+				
 				for (Edge edge : town.getConnected()){
-					if (edge.getEnd().equals(town2)){
+					if (edge.getEnd().getName().equals(town2)){
 						jobs.add(edge);
+
+						
 					}
 				}
 			}
